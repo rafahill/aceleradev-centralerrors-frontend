@@ -39,12 +39,40 @@
           <v-icon>archive</v-icon>
         </v-btn>
 
-        <v-btn icon>
+        <v-btn icon @click="selectToDelete(item)">
           <v-icon>delete</v-icon>
         </v-btn>
       </template>
 
     </v-data-table>
+
+     <v-dialog v-model="confirmDialog" persistent max-width="290">
+      <v-card>
+        <v-layout justify-center>
+        <v-subheader>Deseja deletar esse item?</v-subheader>
+        </v-layout>
+
+        <v-card-actions>
+          <v-layout justify-center>
+          <v-btn small text @click="confirmDialog = false">Cancelar</v-btn>
+          <v-btn small color="#004B8B" text @click="deleteItem()">Confirmar</v-btn>
+          </v-layout>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-snackbar
+            v-model="snackbar"
+            color="#004B8B"
+            :timeout="2000"
+            :top="true"
+            :right="true"
+            flat
+          >
+            <strong>{{snackMessage}}</strong>
+            <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
+          </v-snackbar>
+
   </v-card>
 </template>
 
@@ -54,6 +82,10 @@ export default {
     return {
       search: "",
       environment: null,
+      confirmDialog: false,
+      selectedItem: null,
+      snackbar: false,
+      snackMessage: null,
       headers: [
         { text: "Level", value: "level" },
         { text: "Data/Hora", value: "date" },
@@ -63,6 +95,7 @@ export default {
       ],
       errors: [
         {
+          id: "0",
           iconLevel: "error",
           level: "Erro",
           date: "23/11/2019 - 12:11:02",
@@ -70,6 +103,7 @@ export default {
           errorCode: 1000
         },
         {
+          id: "1",
           iconLevel: "update",
           level: "Debug",
           date: "23/11/2019 - 12:11:02",
@@ -77,6 +111,7 @@ export default {
           errorCode: 300
         },
         {
+          id: "2",
           iconLevel: "warning",
           level: "Alerta",
           date: "23/11/2019 - 12:11:02",
@@ -84,6 +119,7 @@ export default {
           errorCode: 100
         },
         {
+          id: "3",
           iconLevel: "update",
           level: "Debug",
           date: "23/11/2019 - 12:11:02",
@@ -91,6 +127,7 @@ export default {
           errorCode: 300
         },
         {
+          id: "4",
           iconLevel: "update",
           level: "Debug",
           date: "23/11/2019 - 12:11:02",
@@ -98,6 +135,7 @@ export default {
           errorCode: 300
         },
         {
+          id: "5",
           iconLevel: "warning",
           level: "Alerta",
           date: "23/11/2019 - 12:11:02",
@@ -105,6 +143,7 @@ export default {
           errorCode: 100
         },
         {
+          id: "6",
           iconLevel: "error",
           level: "Erro",
           date: "23/11/2019 - 12:11:02",
@@ -120,7 +159,23 @@ export default {
       if (errorCode >= 300 && errorCode <= 999) return "orange";
       if (errorCode <= 100) return "purple";
       else return "#000000";
+    },
+    selectToDelete(item){
+      console.log(item)
+      this.selectedItem = item
+      this.confirmDialog = true
+    },
+    deleteItem() {
+      const index = this.errors.indexOf(this.selectedItem);
+      this.errors.splice(index, 1)
+      this.confirmDialog = false
+      this.activeSnackBar("Erro deletado com sucesso!")
+    },
+    activeSnackBar(message) {
+      this.snackMessage = message
+      this.snackbar = true
     }
+    
   }
 };
 </script>
