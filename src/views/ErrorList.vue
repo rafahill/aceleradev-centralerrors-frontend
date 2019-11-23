@@ -35,6 +35,10 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
+        <v-btn icon class="mr-2" :to="`/error/${item.id}`">
+          <v-icon>visibility</v-icon>
+        </v-btn>
+
         <v-btn icon class="mr-2">
           <v-icon>archive</v-icon>
         </v-btn>
@@ -86,6 +90,7 @@ export default {
       selectedItem: null,
       snackbar: false,
       snackMessage: null,
+      errorDetails: false,
       headers: [
         { text: "Level", value: "level" },
         { text: "Data/Hora", value: "date" },
