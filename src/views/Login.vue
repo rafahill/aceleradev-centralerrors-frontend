@@ -3,15 +3,15 @@
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
-          <div class="cabecalho animated fadeIn delay-1s mt-6">
+          <div class="cabecalho animated fadeIn delay-0.5s mt-6">
             <img src="@/assets/logo_softplan.png" />
           </div>
-          <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-1s">
+          <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
             <span>Log Central</span>
           </v-layout>
 
           <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-1s">
+            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
               <v-text-field
                 outlined
                 label="Usuario"
@@ -26,7 +26,7 @@
           </v-layout>
 
           <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 animated fadeInRight delay-1s">
+            <v-flex xs10 lg3 class="px-4 animated fadeInRight delay-0.5s">
               <v-text-field
                 outlined
                 v-model="password"
@@ -42,7 +42,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" color="#004B8B" outlined class="animated fadeIn delay-1s">Entrar</v-btn>
+            <v-btn type="submit" to="/error" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">

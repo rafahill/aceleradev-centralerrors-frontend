@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import PasswordRecovery from '../views/PasswordRecovery.vue'
 import Signup from '../views/Signup.vue'
+import ErrorList from '../views/ErrorList.vue'
 
 
 Vue.use(VueRouter)
@@ -24,6 +25,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: Signup
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: ErrorList
   }
 ]
 

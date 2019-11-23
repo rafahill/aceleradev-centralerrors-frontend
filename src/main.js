@@ -6,6 +6,10 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 
+
+// Components
+import './components'
+
 new Vue({
   router,
   store,

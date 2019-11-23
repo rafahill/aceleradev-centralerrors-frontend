@@ -1,21 +1,21 @@
 <template>
   <v-app>
-      <v-content>
-        <div>
-          <router-view></router-view>
-        </div>
-      </v-content>
+    <Header />
+    <v-content class="ma-5">
+      <div>
+        <router-view></router-view>
+      </div>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
 
   data: () => ({
     //
-  }),
+  })
 };
 </script>
 
