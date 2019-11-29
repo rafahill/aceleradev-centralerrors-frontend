@@ -6,13 +6,17 @@ import Signup from '../views/Signup.vue'
 import ErrorList from '../views/ErrorList.vue'
 import ErrorDetails from '../views/ErrorDetails.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'home',
+    component: Login
+  },
+  {
+    path: '/login',
+    name: 'login',
     component: Login
   },
 
@@ -45,4 +49,15 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login') 
+  } else {
+    next() 
+  }
+})
 export default router

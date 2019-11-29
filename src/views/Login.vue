@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formLogin" v-model="valid">
+  <v-form id="formLogin" @submit.prevent="login" v-model="valid">
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
@@ -14,9 +14,9 @@
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
               <v-text-field
                 outlined
-                label="Usuario"
+                label="Email"
                 color="#004B8B"
-                v-model="user"
+                v-model="email"
                 prepend-inner-icon="person"
                 clearable
                 @click:clear="limparForm"
@@ -42,7 +42,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" to="/error" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
+            <v-btn type="submit" @submit="login" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">
@@ -57,9 +57,32 @@
 
 <script>
 export default {
+  data() {
+    return {
+      valid: null,
+      snackbar: false,
+      text: "",
+      color: "",
+      show: false,
+      email: "",
+      password: "",
+      loading: false,
+      rules: {
+        required: value => !!value || "Campo Obrigatorio",
+        min: v => (v && v.length >= 3) || "Minimo de 8 caracteres"
+      }
+    };
+  },
   methods: {
     limparForm() {
       this.password = "";
+    },
+    login: function () {
+      let email = this.email 
+      let password = this.password
+      this.$store.dispatch('login', email, password)
+      .then(() => this.$router.push('/error'))
+      .catch(err => console.log(err))
     }
     // login(e) {
     //   e.preventDefault();
@@ -81,22 +104,6 @@ export default {
     //   });
     // }
   },
-  data() {
-    return {
-      valid: null,
-      snackbar: false,
-      text: "",
-      color: "",
-      show: false,
-      user: null,
-      password: "",
-      loading: false,
-      rules: {
-        required: value => !!value || "Campo Obrigatorio",
-        min: v => (v && v.length >= 8) || "Minimo de 8 caracteres"
-      }
-    };
-  }
 };
 </script>
 
