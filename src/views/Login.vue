@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formLogin" v-model="valid">
+  <v-form id="formLogin" v-model="valid" @submit="login">
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
@@ -14,7 +14,7 @@
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
               <v-text-field
                 outlined
-                label="Usuario"
+                label="Email"
                 color="#004B8B"
                 v-model="user"
                 prepend-inner-icon="person"
@@ -42,7 +42,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" to="/error" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
+            <v-btn type="submit" @submit="login" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">
@@ -58,28 +58,28 @@
 <script>
 export default {
   methods: {
-    limparForm() {
-      this.password = "";
+    limparForm(){
+      this.password = ""
+    },
+    login(e) {
+      e.preventDefault();
+      if (this.loading || !this.valid) return;
+      this.loading = true;
+      this.$auth.newLogin(this.user, this.password, err => {
+        if (err && err.code == "invalid_grant") {
+          this.color = "#ffffff";
+          this.text = "Usuário ou senha incorreto.";
+          this.snackbar = true;
+          console.log("Error", err);
+        } else if (err) {
+          this.color = "#ffffff";
+          this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
+          this.snackbar = true;
+          console.log("Error", err);
+        }
+        this.loading = false;
+      });
     }
-    // login(e) {
-    //   e.preventDefault();
-    //   if (this.loading || !this.valid) return;
-    //   this.loading = true;
-    //   this.$auth.newLogin(this.user, this.password, err => {
-    //     if (err && err.code == "invalid_grant") {
-    //       this.color = "#ffffff";
-    //       this.text = "Usuário ou senha incorreto.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     } else if (err) {
-    //       this.color = "#ffffff";
-    //       this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     }
-    //     this.loading = false;
-    //   });
-    // }
   },
   data() {
     return {
@@ -99,6 +99,7 @@ export default {
   }
 };
 </script>
+
 
 <style>
 .cabecalho {

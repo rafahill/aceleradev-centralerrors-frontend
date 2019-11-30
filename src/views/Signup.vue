@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formLogin" v-model="valid">
+  <v-form id="formLogin" v-model="valid" @submit="signUp">
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
@@ -10,7 +10,7 @@
             <span>Log Central</span>
           </v-layout>
 
-
+<!-- 
             <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
               <v-text-field
@@ -24,7 +24,7 @@
                 :rules="[rules.required]"
               />
             </v-flex>
-          </v-layout>
+          </v-layout> -->
 
           <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 animated fadeInLeft delay-0.5s">
@@ -32,7 +32,7 @@
                 outlined
                 label="Email"
                 color="#004B8B"
-                v-model="user"
+                v-model="email"
                 prepend-inner-icon="mail"
                 clearable
                 @click:clear="limparForm"
@@ -61,7 +61,7 @@
             <v-flex xs10 lg3 class="px-4 animated fadeInRight delay-0.5s">
               <v-text-field
                 outlined
-                v-model="password"
+                v-model="repassword"
                 label="Confirme sua Senha"
                 color="#004B8B"
                 prepend-inner-icon="vpn_key"
@@ -90,42 +90,52 @@
 <script>
 export default {
   methods: {
-    limparForm() {
-      this.password = "";
+    limparForm(){
+      this.password = ""
+      this.repassword = ""
+    },
+    signUp(e) {
+      e.preventDefault();
+      if (this.valid) {
+        this.$auth.signUp(this.email, this.password, (err, resp) => {
+          if (err && err.code == "user_exists") {
+            this.color = "#fffff";
+            this.text =
+              "Usuário já existe, tente outro usuário ou realize o login.";
+            this.snackbar = true;
+            console.log("Error", err);
+          } else if (err) {
+            this.color = "#fffff";
+            this.text =
+              "Ocorreu um erro, por favor tente novamente mais tarde.";
+            this.snackbar = true;
+            console.log("Error", err);
+          } else {
+            this.color = "#fffff";
+            this.text = "Usuário criado com sucesso!";
+            this.snackbar = true;
+            setTimeout(() => this.$router.push('login'), 1000);
+          }
+        });
+      }
     }
-    // login(e) {
-    //   e.preventDefault();
-    //   if (this.loading || !this.valid) return;
-    //   this.loading = true;
-    //   this.$auth.newLogin(this.user, this.password, err => {
-    //     if (err && err.code == "invalid_grant") {
-    //       this.color = "#ffffff";
-    //       this.text = "Usuário ou senha incorreto.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     } else if (err) {
-    //       this.color = "#ffffff";
-    //       this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     }
-    //     this.loading = false;
-    //   });
-    // }
   },
   data() {
     return {
+      loading: false,
       valid: null,
       snackbar: false,
-      text: "",
-      color: "",
+      text: '',
+      color: '',
+      email: null,
       show: false,
-      user: null,
-      password: "",
-      loading: false,
+      password: null,
+      repassword: null,
       rules: {
         required: value => !!value || "Campo Obrigatorio",
-        min: v => (v && v.length >= 8) || "Minimo de 8 caracteres"
+        min: v => (v && v.length >= 8) || "Minimo de 8 caracteres",
+        passwordMatches: v => v === this.password || "As senhas não conferem.",
+        emailMatch: () => "The email s and password you entered don't match"
       }
     };
   }

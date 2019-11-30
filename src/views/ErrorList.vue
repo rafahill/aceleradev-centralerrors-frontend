@@ -81,10 +81,14 @@
 </template>
 
 <script>
+import { APIService } from '@/resources/errors.js';
+const api = new APIService();
+
 export default {
   data() {
     return {
       search: "",
+      teste: null,
       environment: null,
       confirmDialog: false,
       selectedItem: null,
@@ -179,8 +183,14 @@ export default {
     activeSnackBar(message) {
       this.snackMessage = message
       this.snackbar = true
+    },
+    getErrors(){
+      this.teste = api.findAll()
+      console.log(this.teste)
     }
-    
+  },
+  mounted(){
+    this.getErrors()
   }
 };
 </script>

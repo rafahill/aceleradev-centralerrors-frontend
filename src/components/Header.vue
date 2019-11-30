@@ -15,7 +15,7 @@
         <v-btn icon to="">
           <v-icon>person</v-icon>
         </v-btn>
-        <v-btn icon to="/">
+        <v-btn icon @click="logout">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import auth from "@/auth.js";
+
   export default {
     data: () => ({
       extended: false,
@@ -36,5 +38,10 @@
       bg: false,
       extensionHeight: 48,
     }),
+    methods: {
+      logout(){
+        this.$auth.logout();
+      }
+    }
   }
 </script>
