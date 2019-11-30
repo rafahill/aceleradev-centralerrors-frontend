@@ -8,12 +8,13 @@ export default new Vuex.Store({
     profile: null,
   },
   mutations: {
-    SET_PERFIL(state, seller) {
-      state.profile = seller;
+    SET_PERFIL(state, user) {
+      state.profile = user;
     },
   },
   actions: {
     carregarPerfil({ commit }, user) {
+      commit('SET_PERFIL', user);
       console.log(user)
     },
   },

@@ -10,7 +10,7 @@ export class APIService {
     const url = `${API_URL}/error/findAll`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
-  find(id) {
+  findById(id) {
     const url = `${API_URL}/error/${id}`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
