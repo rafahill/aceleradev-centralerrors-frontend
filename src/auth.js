@@ -10,15 +10,16 @@ if (location.href.indexOf('localhost:3000') > -1) {
 
 // exchange the object with your own from the setup step above.
 const webAuth = new auth0.WebAuth({
-  domain: 'kontalk.auth0.com',
-  clientID: 'ws2kTUpfK5BVLw39uMIeDLBBv4ywrG7v',
+  domain: 'dev-gzy6720b.auth0.com',
+  clientID: 'yFjbaQPHaXwRl78xzv5uk0GSyIq134bU',
   // make sure this line is contains the port: 8080
-  redirectUri: `${URL}/callback`,
+  redirectUri: `http://localhost:3000/callback`,
   // we will use the api/v2/ to access the user information as payload
-  audience: 'https://kontalk.auth0.com/api/v2/',
+  audience: 'https://dev-gzy6720b.auth0.com/api/v2/',
   responseType: 'token id_token',
   scope: 'openid profile', // define the scopes you want to use
 });
+
 
 const auth = new Vue({
   computed: {
@@ -72,7 +73,7 @@ const auth = new Vue({
           realm: 'Username-Password-Authentication', // connection name or HRD domain
           username: user,
           password,
-          audience: 'https://kontalk.auth0.com/api/v2/',
+          audience: 'https://dev-gzy6720b.auth0.com/api/v2/',
           scope: 'openid profile',
         }, (err, result) => {
           cb(err, result);
@@ -123,7 +124,7 @@ const auth = new Vue({
 
         webAuth.logout({
           returnTo: URL,
-          client_id: 'ws2kTUpfK5BVLw39uMIeDLBBv4ywrG7v',
+          client_id: 'yFjbaQPHaXwRl78xzv5uk0GSyIq134bU',
         });
       });
     },
