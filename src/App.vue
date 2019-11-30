@@ -10,17 +10,16 @@
 </template>
 
 <script>
+import auth from "@/auth.js";
+
 export default {
   name: "App",
-  created: function () {
-    this.$http.interceptors.response.use(undefined, function (err) {
-      return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout)
-        }
-        throw err;
-      });
-    });
+  mounted() {
+    console.log(this.$auth)
+    if (this.$auth.isAuthenticated()) {
+     
+      this.$store.dispatch("carregarPerfil", this.$auth.user);
+    }
   },
 
   data: () => ({

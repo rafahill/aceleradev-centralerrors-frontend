@@ -15,7 +15,7 @@
         <v-btn icon to="">
           <v-icon>person</v-icon>
         </v-btn>
-        <v-btn icon to="/">
+        <v-btn icon @click="this.$auth.logout();">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         

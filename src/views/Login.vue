@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formLogin" @submit.prevent="login" v-model="valid">
+  <v-form id="formLogin" v-model="valid" @submit="login">
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
@@ -16,7 +16,7 @@
                 outlined
                 label="Email"
                 color="#004B8B"
-                v-model="email"
+                v-model="user"
                 prepend-inner-icon="person"
                 clearable
                 @click:clear="limparForm"
@@ -57,6 +57,30 @@
 
 <script>
 export default {
+  methods: {
+    limparForm(){
+      this.password = ""
+    },
+    login(e) {
+      e.preventDefault();
+      if (this.loading || !this.valid) return;
+      this.loading = true;
+      this.$auth.newLogin(this.user, this.password, err => {
+        if (err && err.code == "invalid_grant") {
+          this.color = "#ffffff";
+          this.text = "Usuário ou senha incorreto.";
+          this.snackbar = true;
+          console.log("Error", err);
+        } else if (err) {
+          this.color = "#ffffff";
+          this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
+          this.snackbar = true;
+          console.log("Error", err);
+        }
+        this.loading = false;
+      });
+    }
+  },
   data() {
     return {
       valid: null,
@@ -64,48 +88,18 @@ export default {
       text: "",
       color: "",
       show: false,
-      email: "",
+      user: null,
       password: "",
       loading: false,
       rules: {
         required: value => !!value || "Campo Obrigatorio",
-        min: v => (v && v.length >= 3) || "Minimo de 8 caracteres"
+        min: v => (v && v.length >= 8) || "Minimo de 8 caracteres"
       }
     };
-  },
-  methods: {
-    limparForm() {
-      this.password = "";
-    },
-    login: function () {
-      let email = this.email 
-      let password = this.password
-      this.$store.dispatch('login', email, password)
-      .then(() => this.$router.push('/error'))
-      .catch(err => console.log(err))
-    }
-    // login(e) {
-    //   e.preventDefault();
-    //   if (this.loading || !this.valid) return;
-    //   this.loading = true;
-    //   this.$auth.newLogin(this.user, this.password, err => {
-    //     if (err && err.code == "invalid_grant") {
-    //       this.color = "#ffffff";
-    //       this.text = "Usuário ou senha incorreto.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     } else if (err) {
-    //       this.color = "#ffffff";
-    //       this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     }
-    //     this.loading = false;
-    //   });
-    // }
-  },
+  }
 };
 </script>
+
 
 <style>
 .cabecalho {
