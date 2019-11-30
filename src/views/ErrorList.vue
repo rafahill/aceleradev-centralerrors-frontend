@@ -74,7 +74,7 @@
             flat
           >
             <strong>{{snackMessage}}</strong>
-            <v-btn color="#004B8B" small text @click="snackbar = false">Close</v-btn>
+            <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
           </v-snackbar>
 
   </v-card>
@@ -117,9 +117,8 @@ export default {
       this.selectedItem = item
       this.confirmDialog = true
     },
-    async deleteItem() {
+    deleteItem() {
       const index = this.errors.indexOf(this.selectedItem);
-      await api.deleteError(this.selectedItem);
       this.errors.splice(index, 1)
       this.confirmDialog = false
       this.activeSnackBar("Erro deletado com sucesso!")

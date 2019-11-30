@@ -97,76 +97,19 @@ export default {
       errorDetails: false,
       headers: [
         { text: "Level", value: "level" },
-        { text: "Data/Hora", value: "date" },
+        { text: "Data/Hora", value: "createdAt" },
         { text: "Título", value: "title" },
         { text: "Código", value: "errorCode" },
         { text: "Ações", value: "actions" }
       ],
-      errors: [
-        {
-          id: "0",
-          iconLevel: "error",
-          level: "Erro",
-          date: "23/11/2019 - 12:11:02",
-          title: "acceleration.Service.Addcandidate: <forbidden>",
-          errorCode: 1000
-        },
-        {
-          id: "1",
-          iconLevel: "update",
-          level: "Debug",
-          date: "23/11/2019 - 12:11:02",
-          title: "acceleration.detail: <not_found>",
-          errorCode: 300
-        },
-        {
-          id: "2",
-          iconLevel: "warning",
-          level: "Alerta",
-          date: "23/11/2019 - 12:11:02",
-          title: "user.Service.Auth: password.Password.Compare.crypto/bcrrypt",
-          errorCode: 100
-        },
-        {
-          id: "3",
-          iconLevel: "update",
-          level: "Debug",
-          date: "23/11/2019 - 12:11:02",
-          title: "acceleration.detail: <not_found>",
-          errorCode: 300
-        },
-        {
-          id: "4",
-          iconLevel: "update",
-          level: "Debug",
-          date: "23/11/2019 - 12:11:02",
-          title: "acceleration.detail: <not_found>",
-          errorCode: 300
-        },
-        {
-          id: "5",
-          iconLevel: "warning",
-          level: "Alerta",
-          date: "23/11/2019 - 12:11:02",
-          title: "user.Service.Auth: password.Password.Compare.crypto/bcrrypt",
-          errorCode: 100
-        },
-        {
-          id: "6",
-          iconLevel: "error",
-          level: "Erro",
-          date: "23/11/2019 - 12:11:02",
-          title: "acceleration.Service.Addcandidate: <forbidden>",
-          errorCode: 1000
-        }
-      ]
+      errors: []
     };
   },
   methods: {
     getColor(errorCode) {
       if (errorCode >= 1000) return "red";
       if (errorCode >= 300 && errorCode <= 999) return "orange";
-      if (errorCode <= 100) return "purple";
+      if (errorCode <= 299) return "purple";
       else return "#000000";
     },
     selectToDelete(item){
@@ -185,8 +128,16 @@ export default {
       this.snackbar = true
     },
     getErrors(){
-      this.teste = api.findAll()
-      console.log(this.teste)
+      this.teste = api.findAllByArchivedTrue().then(data => {
+          console.log(data)
+          this.errors = data
+          for(const er of this.errors){
+            if (er.errorCode >= 1000) er.iconLevel = 'error'
+            if (er.errorCode >= 300 && er.errorCode <= 999) er.iconLevel = 'update'
+            if (er.errorCode <= 299) er.iconLevel = 'warning'
+          }
+        });
+      
     }
   },
   mounted(){
