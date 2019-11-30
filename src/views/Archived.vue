@@ -71,7 +71,7 @@
             color="#004B8B"
             :timeout="2000"
             :top="true"
-            :right="true"
+            :center="true"
             text
           >
             <strong>{{snackMessage}}</strong>
