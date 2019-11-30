@@ -4,9 +4,15 @@ import {store} from './store';
 
 
 let URL;
-if (location.href.indexOf('localhost:8081') > -1) {
-  URL = 'http://localhost:8081';
-} 
+if (location.href.indexOf('localhost:3000') > -1) {
+  URL = 'http://localhost:3000';
+} else if (location.href.indexOf('stage') > -1) {
+  URL = 'https://kontalk-stage.surge.sh';
+} else if (location.href.indexOf('ngrok') > -1) {
+  URL = 'http://c86aa3a0.ngrok.io';
+} else {
+  URL = 'http://kontalk.com.br';
+}
 
 // exchange the object with your own from the setup step above.
 const webAuth = new auth0.WebAuth({
@@ -47,7 +53,15 @@ const auth = new Vue({
         localStorage.setItem('expires_at', expiresAt);
       },
     },
-    
+    vuexExpiresAt: {
+      get() {
+        return sessionStorage.getItem('vuex_expires_at');
+      },
+      set(expiresIn) {
+        const expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime());
+        sessionStorage.setItem('vuex_expires_at', expiresAt);
+      },
+    },
     user: {
       get() {
         return JSON.parse(localStorage.getItem('user'));
@@ -89,6 +103,12 @@ const auth = new Vue({
       }, cb);
     },
 
+     async checkVuex() {
+      if(this.vuexExpiresAt <= new Date().getTime()) {
+        this.vuexExpiresAt = 24*60;        
+      }
+    },
+
     async login() {
       webAuth.popup.authorize({
         redirectUri: `${URL}/callback`,
@@ -119,6 +139,7 @@ const auth = new Vue({
     handleAuthentication(err, authResult) {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.expiresAt = authResult.expiresIn;
+        this.vuexExpiresAt = 24*60;
         this.accessToken = authResult.accessToken;
         this.token = authResult.idToken;
         webAuth.client.userInfo(

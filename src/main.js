@@ -3,14 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
-import axios from 'axios'
 import auth from '@/auth';
-Vue.prototype.$http = axios;
-Vue.config.productionTip = false
 
-
+Vue.config.productionTip = false;
 // Components
 import './components'
+Vue.use(auth);
 
 new Vue({
   router,
@@ -20,6 +18,3 @@ new Vue({
 }).$mount('#app')
 
 
-Vue.use(auth);
-
-Vue.prototype.$http = axios;

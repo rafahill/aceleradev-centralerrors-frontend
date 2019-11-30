@@ -15,6 +15,8 @@ import auth from "@/auth.js";
 export default {
   name: "App",
   mounted() {
+    this.$auth.checkVuex();
+    
     console.log(this.$auth)
     if (this.$auth.isAuthenticated()) {
      
