@@ -75,7 +75,7 @@
             flat
           >
             <strong>{{snackMessage}}</strong>
-            <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
+            <v-btn color="#004B8B" small text @click="snackbar = false">Close</v-btn>
           </v-snackbar>
 
   </v-card>

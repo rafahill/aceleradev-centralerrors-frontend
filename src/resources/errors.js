@@ -15,7 +15,7 @@ export class APIService {
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
   findByEnviroment(env) {
-    const url = `${API_URL}/error/findByEnvironment/${env}`;
+    const url = `${API_URL}/error/findAllByEnvironment/${env}`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
   changeArchived(id, flag) {
