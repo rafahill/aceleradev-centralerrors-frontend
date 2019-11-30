@@ -2,7 +2,7 @@
   <div>
     <v-toolbar>
      
-      <v-subheader>Bem vindo @Usuario, seu token é: 312absa2313aae42</v-subheader>
+      <v-subheader v-if="profile">Bem vindo, seu token de usuário é: {{profile.sub}}</v-subheader>
 
       <v-spacer></v-spacer>
 
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import auth from "@/auth.js";
 
   export default {
@@ -42,6 +43,9 @@ import auth from "@/auth.js";
       logout(){
         this.$auth.logout();
       }
+    },
+    computed: {
+      ...mapState(["profile"])
     }
   }
 </script>
