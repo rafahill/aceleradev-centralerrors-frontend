@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar>
+    <v-toolbar v-if="this.$auth.isAuthenticated()">
      
       <v-subheader v-if="profile">Bem vindo, seu token de usuário é: {{profile.sub}}</v-subheader>
 
