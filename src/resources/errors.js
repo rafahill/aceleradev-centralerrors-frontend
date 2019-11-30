@@ -22,6 +22,11 @@ export class APIService {
     const url = `${API_URL}/${id}`;
     return axios.put(url, {archived: flag}, { crossDomain: true }).then(response => response.data);
   }
+
+  deleteError(error) {
+    const url = `${API_URL}/error/${error.id}`;
+    return axios.delete(url, { crossDomain: true });
+  }
   
 
   // getAllResumedBysellerId(customerId, sellerId) {
