@@ -6,12 +6,6 @@ import {store} from './store';
 let URL;
 if (location.href.indexOf('localhost:3000') > -1) {
   URL = 'http://localhost:3000';
-} else if (location.href.indexOf('stage') > -1) {
-  URL = 'https://kontalk-stage.surge.sh';
-} else if (location.href.indexOf('ngrok') > -1) {
-  URL = 'http://c86aa3a0.ngrok.io';
-} else {
-  URL = 'http://kontalk.com.br';
 }
 
 // exchange the object with your own from the setup step above.

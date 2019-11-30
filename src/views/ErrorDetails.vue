@@ -35,7 +35,7 @@
 
           <v-layout row  mt-3>
             <v-flex ml-3 xs2>
-              <strong>Log: </strong>
+              <strong>Ambiente: </strong>
             </v-flex>
 
             <v-flex xs9>
@@ -45,7 +45,7 @@
 
           <v-layout row mt-3>
             <v-flex ml-3 xs2>
-              <strong>Ambiente: </strong>
+              <strong>Log: </strong>
             </v-flex>
 
             <v-flex xs9>
