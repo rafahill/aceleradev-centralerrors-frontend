@@ -10,6 +10,19 @@ export class APIService {
     const url = `${API_URL}/error/findAll`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
+  find(id) {
+    const url = `${API_URL}/error/${id}`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+  findByEnviroment(env) {
+    const url = `${API_URL}/error/${env}`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+  changeArchived(id, flag) {
+    const url = `${API_URL}/${id}`;
+    return axios.put(url, {archived: flag}, { crossDomain: true }).then(response => response.data);
+  }
+  
 
   // getAllResumedBysellerId(customerId, sellerId) {
   //   const encodedSellerId = btoa(sellerId);

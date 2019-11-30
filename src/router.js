@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Home from './views/Home.vue';
+import Archived from './views/Archived.vue';
 import Router from 'vue-router';
 import Login from './views/Login.vue'
 import PasswordRecovery from './views/PasswordRecovery.vue'
@@ -55,6 +56,11 @@ routes:  [
     path: '/404',
     name: '404',
     component: NotFound,
+  },
+  {
+    path: '/archived',
+    name: 'archived',
+    component: Archived,
   },
 ]
 });
