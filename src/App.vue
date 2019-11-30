@@ -16,10 +16,8 @@ export default {
   name: "App",
   mounted() {
     this.$auth.checkVuex();
-    
-    console.log(this.$auth)
+
     if (this.$auth.isAuthenticated()) {
-     
       this.$store.dispatch("carregarPerfil", this.$auth.user);
     }
   },

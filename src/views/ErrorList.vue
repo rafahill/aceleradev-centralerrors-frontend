@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    
     <v-layout>
       <v-card-title>Logs do Sistema</v-card-title>
       <v-spacer></v-spacer>
@@ -48,41 +47,32 @@
           <v-icon>delete</v-icon>
         </v-btn>
       </template>
-
     </v-data-table>
 
-     <v-dialog v-model="confirmDialog" persistent max-width="290">
+    <v-dialog v-model="confirmDialog" persistent max-width="290">
       <v-card>
         <v-layout justify-center>
-        <v-subheader>Deseja deletar esse item?</v-subheader>
+          <v-subheader>Deseja deletar esse item?</v-subheader>
         </v-layout>
 
         <v-card-actions>
           <v-layout justify-center>
-          <v-btn small text @click="confirmDialog = false">Cancelar</v-btn>
-          <v-btn small color="#004B8B" text @click="deleteItem()">Confirmar</v-btn>
+            <v-btn small text @click="confirmDialog = false">Cancelar</v-btn>
+            <v-btn small color="#004B8B" text @click="deleteItem()">Confirmar</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-            v-model="snackbar"
-            color="#004B8B"
-            :timeout="2000"
-            :top="true"
-            :center="true"
-            text
-          >
-            <strong>{{snackMessage}}</strong>
-            <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
-          </v-snackbar>
-
+    <v-snackbar v-model="snackbar" color="#004B8B" :timeout="2000" :top="true" :center="true" text>
+      <strong>{{snackMessage}}</strong>
+      <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 
 <script>
-import { APIService } from '@/resources/errors.js';
+import { APIService } from "@/resources/errors.js";
 const api = new APIService();
 
 export default {
@@ -90,7 +80,7 @@ export default {
     return {
       search: "",
       teste: null,
-      environment: 'ALL',
+      environment: "ALL",
       confirmDialog: false,
       selectedItem: null,
       snackbar: false,
@@ -108,17 +98,16 @@ export default {
   },
   watch: {
     environment: function(a) {
-      console.log(this.environment)
-      if(this.environment == 'ALL') this.getErrors()
-      else this.getByEnv(this.environment)
+      if (this.environment == "ALL") this.getErrors();
+      else this.getByEnv(this.environment);
     }
   },
   methods: {
-    archive(item){
+    archive(item) {
       api.changeArchived(item.id, true).then(data => {
-          this.activeSnackBar("Erro arquivado com sucesso!")
-          this.getErrors()
-        });
+        this.activeSnackBar("Erro arquivado com sucesso!");
+        this.getErrors();
+      });
     },
     getColor(errorCode) {
       if (errorCode >= 1000) return "red";
@@ -126,47 +115,45 @@ export default {
       if (errorCode <= 299) return "purple";
       else return "#000000";
     },
-    selectToDelete(item){
-      console.log(item)
-      this.selectedItem = item
-      this.confirmDialog = true
+    selectToDelete(item) {
+      this.selectedItem = item;
+      this.confirmDialog = true;
     },
     deleteItem() {
       const index = this.errors.indexOf(this.selectedItem);
-      this.errors.splice(index, 1)
-      this.confirmDialog = false
-      this.activeSnackBar("Erro deletado com sucesso!")
+      this.errors.splice(index, 1);
+      this.confirmDialog = false;
+      this.activeSnackBar("Erro deletado com sucesso!");
     },
     activeSnackBar(message) {
-      this.snackMessage = message
-      this.snackbar = true
+      this.snackMessage = message;
+      this.snackbar = true;
     },
-    getByEnv(env){
+    getByEnv(env) {
       let res = api.findAllByEnvironmentAndByArchivedFalse(env).then(data => {
-          console.log(data)
-          this.errors = data
-          for(const er of this.errors){
-            if (er.errorCode >= 1000) er.iconLevel = 'error'
-            if (er.errorCode >= 300 && er.errorCode <= 999) er.iconLevel = 'update'
-            if (er.errorCode <= 299) er.iconLevel = 'warning'
-          }
-        });
+        this.errors = data;
+        for (const er of this.errors) {
+          if (er.errorCode >= 1000) er.iconLevel = "error";
+          if (er.errorCode >= 300 && er.errorCode <= 999)
+            er.iconLevel = "update";
+          if (er.errorCode <= 299) er.iconLevel = "warning";
+        }
+      });
     },
-    getErrors(){
+    getErrors() {
       let res = api.findAllByArchivedFalse().then(data => {
-          console.log(data)
-          this.errors = data
-          for(const er of this.errors){
-            if (er.errorCode >= 1000) er.iconLevel = 'error'
-            if (er.errorCode >= 300 && er.errorCode <= 999) er.iconLevel = 'update'
-            if (er.errorCode <= 299) er.iconLevel = 'warning'
-          }
-        });
-      
+        this.errors = data;
+        for (const er of this.errors) {
+          if (er.errorCode >= 1000) er.iconLevel = "error";
+          if (er.errorCode >= 300 && er.errorCode <= 999)
+            er.iconLevel = "update";
+          if (er.errorCode <= 299) er.iconLevel = "warning";
+        }
+      });
     }
   },
-  mounted(){
-    this.getErrors()
+  mounted() {
+    this.getErrors();
   }
 };
 </script>

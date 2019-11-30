@@ -15,7 +15,6 @@ export default new Vuex.Store({
   actions: {
     carregarPerfil({ commit }, user) {
       commit('SET_PERFIL', user);
-      console.log(user)
     },
   },
   modules: {

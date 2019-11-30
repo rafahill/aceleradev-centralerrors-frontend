@@ -40,12 +40,12 @@ export class APIService {
     const url = `${API_URL}/error/${error.id}`;
     return axios.delete(url, { crossDomain: true });
   }
-  
+
 
   // getAllResumedBysellerId(customerId, sellerId) {
   //   const encodedSellerId = btoa(sellerId);
   //   const url = `${API_URL}/person/findAll/${customerId}/${encodedSellerId}`;
-    
+
   //   return axios.get(url, { crossDomain: true }).then(response => response.data);
   // }
 
@@ -54,5 +54,5 @@ export class APIService {
   //   return axios.get(url, { crossDomain: true }).then(response => response.data);
   // }
 
-  
+
 }
