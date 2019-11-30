@@ -6,6 +6,7 @@
       <v-spacer></v-spacer>
       <v-flex xs3>
         <v-radio-group v-model="environment" row>
+          <v-radio label="Todos" color="#004B8B" value="all"></v-radio>
           <v-radio label="Dev" color="#004B8B" value="dev"></v-radio>
           <v-radio label="Produção" color="#004B8B" value="production"></v-radio>
           <v-radio label="Homologação" color="#004B8B" value="validation"></v-radio>
@@ -39,8 +40,8 @@
           <v-icon>visibility</v-icon>
         </v-btn>
 
-        <v-btn icon class="mr-2">
-          <v-icon>archive</v-icon>
+        <v-btn icon class="mr-2" @click="unarchive(item)">
+          <v-icon>unarchive</v-icon>
         </v-btn>
 
         <v-btn icon @click="selectToDelete(item)">
@@ -89,7 +90,7 @@ export default {
     return {
       search: "",
       teste: null,
-      environment: null,
+      environment: 'all',
       confirmDialog: false,
       selectedItem: null,
       snackbar: false,
@@ -106,6 +107,12 @@ export default {
     };
   },
   methods: {
+    unarchive(item){
+      api.changeArchived(item.id, false).then(data => {
+          this.activeSnackBar("Erro desarquivado com sucesso!")
+          this.getErrors()
+        });
+    },
     getColor(errorCode) {
       if (errorCode >= 1000) return "red";
       if (errorCode >= 300 && errorCode <= 999) return "orange";

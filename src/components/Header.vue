@@ -7,8 +7,8 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text>Geral</v-btn>
-        <v-btn text>Arquivados</v-btn>
+        <v-btn text to="/">Geral</v-btn>
+        <v-btn text to="/archived">Arquivados</v-btn>
       </v-toolbar-items>
 
       <template v-if="$vuetify.breakpoint.smAndUp">

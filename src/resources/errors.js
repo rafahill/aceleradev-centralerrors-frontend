@@ -19,11 +19,16 @@ export class APIService {
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
   changeArchived(id, flag) {
-    const url = `${API_URL}/error/${id}`;
-    return axios.put(url, {archived: flag}, { crossDomain: true }).then(response => response.data);
+    const url = `${API_URL}/error/${id}/setArchived/${flag}`;
+    return axios.put(url, { crossDomain: true }).then(response => response.data);
   }
   findAllByArchivedTrue() {
     const url = `${API_URL}/error/findAllByArchivedTrue`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+
+  findAllByArchivedFalse() {
+    const url = `${API_URL}/error/findAllByArchivedFalse`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
 
