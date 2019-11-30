@@ -14,8 +14,12 @@ export class APIService {
     const url = `${API_URL}/error/${id}`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
-  findByEnviroment(env) {
-    const url = `${API_URL}/error/findAllByEnvironment/${env}`;
+  findAllByEnvironmentAndByArchivedTrue(env) {
+    const url = `${API_URL}/error/findAllByEnvironmentAndByArchivedTrue/${env}`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+  findAllByEnvironmentAndByArchivedFalse(env) {
+    const url = `${API_URL}/error/findAllByEnvironmentAndByArchivedFalse/${env}`;
     return axios.get(url, { crossDomain: true }).then(response => response.data);
   }
   changeArchived(id, flag) {

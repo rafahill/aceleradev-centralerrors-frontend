@@ -72,7 +72,7 @@
             :timeout="2000"
             :top="true"
             :right="true"
-            flat
+            text
           >
             <strong>{{snackMessage}}</strong>
             <v-btn color="#004B8B" small flat @click="snackbar = false">Close</v-btn>
@@ -142,7 +142,7 @@ export default {
       this.snackbar = true
     },
     getByEnv(env){
-      let res = api.findByEnviroment(env).then(data => {
+      let res = api.findAllByEnvironmentAndByArchivedFalse(env).then(data => {
           console.log(data)
           this.errors = data
           for(const er of this.errors){

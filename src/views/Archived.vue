@@ -6,10 +6,10 @@
       <v-spacer></v-spacer>
       <v-flex xs3>
         <v-radio-group v-model="environment" row>
-          <v-radio label="Todos" color="#004B8B" value="all"></v-radio>
-          <v-radio label="Dev" color="#004B8B" value="dev"></v-radio>
-          <v-radio label="Produção" color="#004B8B" value="production"></v-radio>
-          <v-radio label="Homologação" color="#004B8B" value="validation"></v-radio>
+          <v-radio label="Todos" color="#004B8B" value="ALL"></v-radio>
+          <v-radio label="Dev" color="#004B8B" value="DEVELOPMENT"></v-radio>
+          <v-radio label="Produção" color="#004B8B" value="PRODUCTION"></v-radio>
+          <v-radio label="Homologação" color="#004B8B" value="HOMOLOGATION"></v-radio>
         </v-radio-group>
       </v-flex>
 
@@ -72,7 +72,7 @@
             :timeout="2000"
             :top="true"
             :right="true"
-            flat
+            text
           >
             <strong>{{snackMessage}}</strong>
             <v-btn color="#004B8B" small text @click="snackbar = false">Close</v-btn>
@@ -90,7 +90,7 @@ export default {
     return {
       search: "",
       teste: null,
-      environment: 'all',
+      environment: 'ALL',
       confirmDialog: false,
       selectedItem: null,
       snackbar: false,
@@ -106,6 +106,13 @@ export default {
       errors: []
     };
   },
+  watch: {
+    environment: function(a) {
+      console.log(this.environment)
+      if(this.environment == 'ALL') this.getErrors()
+      else this.getByEnv(this.environment)
+    }
+  },
   methods: {
     unarchive(item){
       api.changeArchived(item.id, false).then(data => {
@@ -113,6 +120,7 @@ export default {
           this.getErrors()
         });
     },
+  
     getColor(errorCode) {
       if (errorCode >= 1000) return "red";
       if (errorCode >= 300 && errorCode <= 999) return "orange";
@@ -133,6 +141,17 @@ export default {
     activeSnackBar(message) {
       this.snackMessage = message
       this.snackbar = true
+    },
+     getByEnv(env){
+      let res = api.findAllByEnvironmentAndByArchivedTrue(env).then(data => {
+          console.log(data)
+          this.errors = data
+          for(const er of this.errors){
+            if (er.errorCode >= 1000) er.iconLevel = 'error'
+            if (er.errorCode >= 300 && er.errorCode <= 999) er.iconLevel = 'update'
+            if (er.errorCode <= 299) er.iconLevel = 'warning'
+          }
+        });
     },
     getErrors(){
       this.teste = api.findAllByArchivedTrue().then(data => {
